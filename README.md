@@ -9,7 +9,7 @@ All configuration, npm and webpack scripts are modified ones from `react-scripts
 ### Commands
 
 - `npm i --production` – Install only necessary npm dependencies. Or install everything with `npm i` for development.
-- `npm run start` – Start dev server. Files `.env.dtf` and `.env.tj` will not be used so consider creating [local environment file](#local-environment)
+- `npm run start` – Start dev server. File `.env.production` will not be used so consider creating [local environment file](#local-environment)
 - `npm run build` – [More about environment and builds](#sites-build-environment)
 - `npm run lint` – Check project with `eslint`
 

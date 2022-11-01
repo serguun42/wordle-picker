@@ -18,9 +18,6 @@ if (!NODE_ENV) {
   throw new Error('The NODE_ENV environment variable is required but was not specified.');
 }
 
-/** See "build:tj" | "build:dtf" scripts in package.json */
-const SITE_NAME_FLAG = process.argv.find((arg) => /^--site=/.test(arg))?.split('=')?.[1] || '';
-
 // https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use
 const dotenvFiles = [
   `${paths.dotenv}.${NODE_ENV}.local`,
@@ -28,7 +25,6 @@ const dotenvFiles = [
   // since normally you expect tests to produce the same
   // results for everyone
   NODE_ENV !== 'test' && `${paths.dotenv}.local`,
-  NODE_ENV === 'production' && SITE_NAME_FLAG && `${paths.dotenv}.${SITE_NAME_FLAG}`,
   `${paths.dotenv}.${NODE_ENV}`,
   paths.dotenv,
 ].filter(Boolean);
