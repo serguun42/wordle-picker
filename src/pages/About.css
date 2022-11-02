@@ -1,0 +1,25 @@
+.about__title {
+  display: block;
+  position: relative;
+
+  width: 100%;
+
+  margin: 0 0 16px;
+  padding: 24px 12px 0;
+
+  text-align: center;
+  color: var(--text);
+}
+
+.about__subtitle {
+  display: block;
+  position: relative;
+
+  width: 100%;
+
+  margin: 0 0 32px;
+  padding: 0 12px;
+
+  text-align: center;
+  color: var(--supporting);
+}

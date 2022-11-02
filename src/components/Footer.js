@@ -60,6 +60,11 @@ export default function Footer() {
       </section>
 
       <section className="footer__section">
+        <Link to="/about" className="footer__section__item">
+          <i className="material-icons">info</i>
+          <span>How to use</span>
+        </Link>
+
         <div className="footer__section__item default-no-select default-pointer" onClick={() => changeTheme()}>
           <i className="material-icons">{themeState.icon}</i>
           <span>{themeState.name}</span>

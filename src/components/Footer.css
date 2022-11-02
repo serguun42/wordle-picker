@@ -63,7 +63,7 @@
   color: #e1e1e1;
 }
 
-.footer__section__item:last-of-type {
+.footer__section__item:last-child {
   margin: 0;
 }
 

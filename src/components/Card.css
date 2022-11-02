@@ -1,0 +1,26 @@
+.card {
+  display: block;
+  position: relative;
+
+  width: 100%;
+  padding: 16px 20px;
+  margin: 24px auto;
+
+  color: var(--text);
+  font-size: 16px;
+  text-align: center;
+
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: var(--card);
+
+  box-shadow: 0 0 2px 0 var(--button-shadow);
+}
+
+@media (max-width: 800px) {
+  .card {
+    border-radius: 4px;
+    padding: 12px 8px;
+    margin: 8px auto;
+  }
+}

@@ -1,6 +1,7 @@
 :root {
   --text: #333;
   --header: var(--primary);
+  --supporting: #595959;
   --background: #e1e1e1;
   --card: #fff;
   --ripple: var(--primary);
@@ -16,6 +17,7 @@
 :root .is-dark {
   --text: #e1e1e1;
   --header: #121212;
+  --supporting: #888;
   --background: #121212;
   --card: #333;
   --button-background: var(--primary);
@@ -59,6 +61,12 @@ input[type='number'] {
 
 .default-pointer {
   border: none;
+  outline: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.default-pointer-with-border {
   outline: none;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
@@ -207,4 +215,18 @@ h6 {
 ::selection .is-dark {
   background-color: var(--primary);
   color: #e1e1e1;
+}
+
+#app {
+  display: block;
+  position: relative;
+
+  width: calc(100% - 16px);
+  max-width: 800px;
+
+  min-height: calc(100% - 20px);
+  min-height: calc(100vh - 20px);
+
+  margin: 0 auto;
+  padding: 0;
 }

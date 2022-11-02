@@ -1,9 +1,10 @@
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import App from './App';
 import Home from './pages/Home';
+import About from './pages/About';
 import NotFound from './pages/NotFound';
+import Footer from './components/Footer';
 import Message from './components/Message';
 import ScrollToTop from './util/scroll-to-top';
 import dispatcher from './util/dispatcher';
@@ -31,16 +32,18 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
     <BrowserRouter basename={process.env.PUBLIC_URL}>
-      <ScrollToTop />
-      <Routes>
-        <Route element={<App />}>
+      <div id="app">
+        <ScrollToTop />
+        <Routes>
           <Route path="/">
             <Route index element={<Home />} />
+            <Route path="/about" element={<About />} />
           </Route>
           <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
+        </Routes>
+      </div>
+      <Footer />
+      <Message />
     </BrowserRouter>
-    <Message />
   </Provider>
 );

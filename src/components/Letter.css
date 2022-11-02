@@ -1,0 +1,75 @@
+:root {
+  --letter-size: 64px;
+  --letter-gap: 12px;
+  --letter-font-size: 32px;
+  --letter-border-size: 2px;
+}
+
+@media (max-width: 800px) {
+  :root {
+    --letter-size: 54px;
+    --letter-gap: 8px;
+    --letter-font-size: 28px;
+    --letter-border-size: 2px;
+  }
+}
+
+:root {
+  --tile-border-color: #878a8c;
+  --tile-filled-text-color: #fff;
+  --tile-unknown-text-color: #000;
+  --tile-correct-background-color: #6aaa64;
+  --tile-present-background-color: #c9b458;
+  --tile-absent-background-color: #787c7e;
+  --tile-unknown-background-color: #ddd;
+}
+
+:root .is-dark {
+  --tile-border-color: #565758;
+  --tile-filled-text-color: #fff;
+  --tile-unknown-text-color: #fff;
+  --tile-correct-background-color: #538d4e;
+  --tile-present-background-color: #b59f3b;
+  --tile-absent-background-color: #3a3a3a;
+  --tile-unknown-background-color: #121212;
+}
+
+.letter {
+  display: block;
+  position: relative;
+
+  width: var(--letter-size);
+  height: var(--letter-size);
+
+  margin: 0;
+  padding: calc(var(--letter-size) / 2 - var(--letter-font-size) / 2 - var(--letter-border-size)) 0;
+
+  font-size: var(--letter-font-size);
+  font-weight: 700;
+  line-height: var(--letter-font-size);
+  text-transform: uppercase;
+
+  border-width: var(--letter-border-size);
+  border-style: solid;
+  border-color: var(--tile-border-color);
+  color: var(--tile-unknown-text-color);
+  background-color: var(--tile-unknown-background-color);
+}
+
+.letter--correct {
+  border-color: transparent;
+  color: var(--tile-filled-text-color);
+  background-color: var(--tile-correct-background-color);
+}
+
+.letter--present {
+  border-color: transparent;
+  color: var(--tile-filled-text-color);
+  background-color: var(--tile-present-background-color);
+}
+
+.letter--absent {
+  border-color: transparent;
+  color: var(--tile-filled-text-color);
+  background-color: var(--tile-absent-background-color);
+}
