@@ -1,0 +1,56 @@
+.card-about {
+  display: block;
+  position: relative;
+}
+
+.card-about li:first-child {
+  margin-top: 8px;
+}
+
+.card-about li:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+.card-about__marks {
+  list-style: square;
+}
+
+.card-about__correct-mark {
+  display: inline-block;
+
+  padding: 2px 4px;
+  border-radius: 4px;
+
+  color: var(--tile-filled-text-color);
+  background-color: var(--tile-correct-background-color);
+}
+
+.card-about__present-mark {
+  display: inline-block;
+
+  padding: 2px 4px;
+  border-radius: 4px;
+
+  color: var(--tile-filled-text-color);
+  background-color: var(--tile-present-background-color);
+}
+
+.card-about__absent-mark {
+  display: inline-block;
+
+  padding: 2px 4px;
+  border-radius: 4px;
+
+  color: var(--tile-filled-text-color);
+  background-color: var(--tile-absent-background-color);
+}
+
+.card-about__unknown-mark {
+  display: inline-block;
+
+  padding: 2px 4px;
+  border-radius: 4px;
+
+  color: var(--tile-unknown-text-color);
+  background-color: var(--tile-unknown-background-color);
+}

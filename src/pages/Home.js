@@ -45,6 +45,8 @@ export default function Home() {
       </div>
 
       <Card cardRole="game" />
+
+      <Card cardRole="results" />
     </>
   );
 }

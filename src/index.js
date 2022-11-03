@@ -10,6 +10,7 @@ import ScrollToTop from './util/scroll-to-top';
 import dispatcher from './util/dispatcher';
 import store from './store';
 import { checkSystemOnMediaChange } from './store/theme';
+import { getWords } from './store/words';
 import './util/set-primary';
 import './util/cache';
 import './index.css';
@@ -26,6 +27,8 @@ ApplyThemeClassToBody(store.getState().theme);
 window
   .matchMedia?.('(prefers-color-scheme: dark)')
   ?.addEventListener('change', () => store.dispatch(checkSystemOnMediaChange()));
+
+window.addEventListener('load', () => store.dispatch(getWords()));
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 

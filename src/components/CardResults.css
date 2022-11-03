@@ -1,0 +1,32 @@
+.card-results__list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: relative;
+
+  width: 100%;
+
+  margin: 0 auto;
+  padding: 12px 0 0;
+}
+
+.card-results__word {
+  display: block;
+  position: relative;
+
+  margin: 0 6px 4px 0;
+  padding: 2px 4px;
+
+  border-radius: 4px;
+  color: var(--tile-filled-text-color);
+  background-color: var(--tile-correct-background-color);
+}
+
+.card-results__empty {
+  display: block;
+  position: relative;
+
+  margin: 0 6px 4px 0;
+  padding: 2px 4px;
+}

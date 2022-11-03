@@ -1,0 +1,80 @@
+import { createSlice } from '@reduxjs/toolkit';
+import dispatcher from '../util/dispatcher';
+import GetKey from '../util/get-key';
+import LogMessageOrError from '../util/log';
+
+/**
+ * @typedef {Object} UpdatedLetterPayload
+ * @property {number} rowIndex
+ * @property {number} letterIndex
+ * @property {import('../types/Row').LetterState} [letterState]
+ * @property {string} [letterValue]
+ */
+
+export const rowsSlice = createSlice({
+  name: 'rows',
+
+  /** @type {{ rows: import('../types/Row').Row[] }} */
+  initialState: {
+    rows: [
+      [
+        { value: 'c', state: 'unknown', key: GetKey('letter') },
+        { value: 'r', state: 'unknown', key: GetKey('letter') },
+        { value: 'a', state: 'unknown', key: GetKey('letter') },
+        { value: 't', state: 'unknown', key: GetKey('letter') },
+        { value: 'e', state: 'unknown', key: GetKey('letter') },
+      ],
+    ],
+  },
+
+  reducers: {
+    /** @param {{ payload: import('../types/Row').Row }} action */
+    addRow: (state, action) => {
+      state.rows.push(action.payload);
+      dispatcher.call('rowsChanged');
+    },
+
+    addEmptyRow: (state) => {
+      state.rows.push(
+        Array.from(
+          { length: 5 },
+          /** @returns {import('../types/Row').Letter} */ () => ({ value: '', state: 'unknown', key: GetKey('letter') })
+        )
+      );
+      dispatcher.call('rowsChanged');
+    },
+
+    deleteRow: (state) => {
+      state.rows.pop();
+      dispatcher.call('rowsChanged');
+    },
+
+    /**
+     * @param {{ payload: UpdatedLetterPayload }} action
+     */
+    changeLetter: (state, action) => {
+      const { rowIndex, letterIndex, letterState, letterValue } = action.payload;
+
+      const row = state.rows[rowIndex];
+      if (!row) {
+        LogMessageOrError(new Error(`No row with index ${rowIndex}`));
+        return;
+      }
+
+      const letter = row[letterIndex];
+      if (!letter) {
+        LogMessageOrError(new Error(`No letter with index ${rowIndex} at row ${rowIndex}`));
+        return;
+      }
+
+      if (typeof letterState === 'string') letter.state = letterState;
+      if (typeof letterValue === 'string') letter.value = letterValue;
+
+      dispatcher.call('rowsChanged');
+    },
+  },
+});
+
+export const { addRow, addEmptyRow, deleteRow, changeLetter } = rowsSlice.actions;
+
+export const { reducer } = rowsSlice;

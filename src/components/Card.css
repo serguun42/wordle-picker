@@ -8,7 +8,6 @@
 
   color: var(--text);
   font-size: 16px;
-  text-align: center;
 
   border-radius: 8px;
   overflow: hidden;
@@ -23,4 +22,51 @@
     padding: 12px 8px;
     margin: 8px auto;
   }
+}
+
+.card__buttons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  width: 100%;
+
+  margin: 0 auto;
+}
+
+.card__button {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  width: fit-content;
+  height: 36px;
+
+  margin: 8px 0 0;
+  padding: 8px 36px;
+
+  font-size: 16px;
+  line-height: 1em;
+  text-decoration: unset;
+
+  border-radius: 5px;
+  transition: opacity 300ms linear 0s;
+}
+
+.card__button:only-child {
+  margin: 0;
+}
+
+.card__button--disabled {
+  opacity: 0.5;
+}
+
+.card__button .material-icons {
+  margin-right: 4px;
 }

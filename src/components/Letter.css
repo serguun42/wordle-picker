@@ -47,6 +47,7 @@
   font-size: var(--letter-font-size);
   font-weight: 700;
   line-height: var(--letter-font-size);
+  text-align: center;
   text-transform: uppercase;
 
   border-width: var(--letter-border-size);
