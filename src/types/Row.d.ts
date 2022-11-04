@@ -1,4 +1,4 @@
-export type LetterState = 'correct' | 'present' | 'absent' | 'unknown';
+export type LetterState = 'correct' | 'present' | 'absent';
 
 export type Letter = {
   value: string;

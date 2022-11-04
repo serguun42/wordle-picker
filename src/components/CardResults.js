@@ -29,17 +29,29 @@ export default function CardResults() {
     <>
       <div className="card__buttons">
         <div
-          className={`card__button ${filteredWords.length > 5 ? 'default-pointer' : ''} default-no-select`}
-          onClick={() => filteredWords.length > 5 && SwitchResults()}
+          className={`card__button ${
+            filteredWords.length > 5 && filteredWords.length !== words.length ? 'default-pointer' : ''
+          } default-no-select`}
+          onClick={() => filteredWords.length > 5 && filteredWords.length !== words.length && SwitchResults()}
         >
           <span className="material-icons">
-            {filteredWords.length > 5 ? (isExpanded ? 'unfold_less' : 'unfold_more') : 'close'}
+            {filteredWords.length > 5
+              ? isExpanded
+                ? 'unfold_less'
+                : filteredWords.length === words.length
+                ? 'schedule'
+                : 'unfold_more'
+              : 'close'}
           </span>
           <span>
             {filteredWords.length > 5
               ? isExpanded
                 ? 'View less results'
-                : `View all ${filteredWords.length} results`
+                : filteredWords.length === words.length
+                ? 'Try guessing some letters'
+                : filteredWords.length > 1000
+                ? 'View first 1000 results'
+                : `View ${filteredWords.length} results`
               : filteredWords.length
               ? 'No more results'
               : 'No matching words'}
@@ -48,9 +60,9 @@ export default function CardResults() {
         </div>
       </div>
 
-      {filteredWords.length ? (
+      {filteredWords.length && filteredWords.length !== words.length ? (
         <div className="card-results__list" key={timesUpdated}>
-          {filteredWords.slice(0, isExpanded ? undefined : 5).map((word) => (
+          {filteredWords.slice(0, isExpanded ? 1000 : 5).map((word) => (
             <div className="card-results__word" key={word}>
               {word}
             </div>

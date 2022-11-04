@@ -21,7 +21,7 @@
   padding: 2px 4px;
   border-radius: 4px;
 
-  color: var(--tile-filled-text-color);
+  color: var(--tile-correct-text-color);
   background-color: var(--tile-correct-background-color);
 }
 
@@ -31,7 +31,7 @@
   padding: 2px 4px;
   border-radius: 4px;
 
-  color: var(--tile-filled-text-color);
+  color: var(--tile-present-text-color);
   background-color: var(--tile-present-background-color);
 }
 
@@ -41,16 +41,6 @@
   padding: 2px 4px;
   border-radius: 4px;
 
-  color: var(--tile-filled-text-color);
+  color: var(--tile-absent-text-color);
   background-color: var(--tile-absent-background-color);
-}
-
-.card-about__unknown-mark {
-  display: inline-block;
-
-  padding: 2px 4px;
-  border-radius: 4px;
-
-  color: var(--tile-unknown-text-color);
-  background-color: var(--tile-unknown-background-color);
 }

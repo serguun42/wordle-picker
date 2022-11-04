@@ -18,11 +18,11 @@ export const rowsSlice = createSlice({
   initialState: {
     rows: [
       [
-        { value: 'c', state: 'unknown', key: GetKey('letter') },
-        { value: 'r', state: 'unknown', key: GetKey('letter') },
-        { value: 'a', state: 'unknown', key: GetKey('letter') },
-        { value: 't', state: 'unknown', key: GetKey('letter') },
-        { value: 'e', state: 'unknown', key: GetKey('letter') },
+        { value: 'c', state: 'absent', key: GetKey('letter') },
+        { value: 'r', state: 'absent', key: GetKey('letter') },
+        { value: 'a', state: 'absent', key: GetKey('letter') },
+        { value: 't', state: 'absent', key: GetKey('letter') },
+        { value: 'e', state: 'absent', key: GetKey('letter') },
       ],
     ],
   },
@@ -38,7 +38,7 @@ export const rowsSlice = createSlice({
       state.rows.push(
         Array.from(
           { length: 5 },
-          /** @returns {import('../types/Row').Letter} */ () => ({ value: '', state: 'unknown', key: GetKey('letter') })
+          /** @returns {import('../types/Row').Letter} */ () => ({ value: '', state: 'absent', key: GetKey('letter') })
         )
       );
       dispatcher.call('rowsChanged');

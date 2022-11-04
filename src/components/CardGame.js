@@ -4,12 +4,13 @@ import Row from './Row';
 import store from '../store';
 import { addEmptyRow, deleteRow } from '../store/rows';
 import './CardGame.css';
+import PopupDeletionConfirm from '../util/popups/deletion-confirm';
 
 export default function CardGame() {
   /** @type {{ rows: import('../types/Row').Row[] }} */
   const { rows } = useSelector((state) => state.rows);
 
-  const DeleteRow = () => store.dispatch(deleteRow());
+  const DeleteRow = () => PopupDeletionConfirm(() => store.dispatch(deleteRow()));
 
   const AddEmptyRow = () => store.dispatch(addEmptyRow());
 
@@ -36,7 +37,7 @@ export default function CardGame() {
         ) : null}
         <div className="card__button default-pointer default-no-select" onClick={AddEmptyRow}>
           <span className="material-icons">add</span>
-          <span>Add filter</span>
+          <span>Add filter/row</span>
           <Ripple />
         </div>
       </div>

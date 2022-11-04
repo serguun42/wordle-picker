@@ -5,6 +5,9 @@ import { changeLetter } from '../store/rows';
 import dispatcher from '../util/dispatcher';
 import './Letter.css';
 
+const SWIPE_STATE_CHANGE_TRAVEL = 30;
+const SWIPE_STATE_CHANGE_TIMEOUT = 100;
+
 /**
  * @param {{ letter: import('../types/Row').Letter, rowIndex: number, letterIndex: number, autoFocus: boolean }} props
  */
@@ -12,8 +15,10 @@ export default function Letter({ letter, rowIndex, letterIndex, autoFocus }) {
   /** @type {import("react").MutableRefObject<HTMLInputElement>} */
   const inputRef = useRef();
   const [isNeverFocused, setNeverFocused] = useState(true);
+  const [touchOrigin, setTouchOrigin] = useState(0);
+  let swipeChangeTime = Date.now();
 
-  useState(() => {
+  useEffect(() => {
     /**
      * @param {number} switchingRowIndex
      * @param {number} switchingLetterIndex
@@ -37,25 +42,27 @@ export default function Letter({ letter, rowIndex, letterIndex, autoFocus }) {
     }
   }, [inputRef.current]);
 
-  const SwitchLetterState = () => {
+  /**
+   * @param {boolean} [rotationPosivite]
+   * @returns {void}
+   */
+  const SwitchAndSaveLetterState = (rotationPosivite = true) => {
+    if (Date.now() - swipeChangeTime < SWIPE_STATE_CHANGE_TIMEOUT) return;
+
     /** @type {import('../types/Row').LetterState} */
-    const newLetterState =
-      letter.state === 'correct'
-        ? 'present'
-        : letter.state === 'present'
-        ? 'absent'
-        : letter.state === 'absent'
-        ? 'unknown'
-        : 'correct';
+    const nextState = letter.state === 'correct' ? 'present' : letter.state === 'present' ? 'absent' : 'correct';
+    /** @type {import('../types/Row').LetterState} */
+    const prevState = letter.state === 'correct' ? 'absent' : letter.state === 'absent' ? 'present' : 'correct';
+    const newLetterState = rotationPosivite ? nextState : prevState;
 
     store.dispatch(changeLetter({ rowIndex, letterIndex, letterState: newLetterState }));
   };
 
   /** @param {string} [presetLetterValue] */
   const SaveLetterValue = (presetLetterValue) => {
-    if (typeof presetLetterValue !== 'string') presetLetterValue = '';
+    const newLetterValue =
+      typeof presetLetterValue === 'string' ? presetLetterValue : inputRef.current?.value?.[0] || '';
 
-    const newLetterValue = presetLetterValue || inputRef.current?.value?.[0] || '';
     store.dispatch(changeLetter({ rowIndex, letterIndex, letterValue: newLetterValue.toLowerCase() }));
   };
 
@@ -96,24 +103,50 @@ export default function Letter({ letter, rowIndex, letterIndex, autoFocus }) {
     if (e.code === 'Enter' || e.key === 'Enter') NextLetterInput();
   };
 
+  /** @param {TouchEvent} e */
+  const OnTouchStart = (e) => {
+    const touch = e.touches[0];
+    setTouchOrigin(touch.clientX);
+  };
+
+  /** @param {TouchEvent} e */
+  const OnTouchMove = (e) => {
+    if (typeof touchOrigin !== 'number') return;
+
+    const touch = e.touches[0];
+    const movement = touch.clientX - touchOrigin;
+
+    if (movement > SWIPE_STATE_CHANGE_TRAVEL) {
+      setTouchOrigin(null);
+      SwitchAndSaveLetterState(true);
+      swipeChangeTime = Date.now();
+    } else if (movement < -SWIPE_STATE_CHANGE_TRAVEL) {
+      setTouchOrigin(null);
+      SwitchAndSaveLetterState(false);
+      swipeChangeTime = Date.now();
+    }
+  };
+
   return (
     <input
-      className={`letter letter--${letter.state} default-pointer-with-border`}
+      className={`letter letter--${letter.state} default-pointer default-no-select`}
       tabIndex={rowIndex * 10 + letterIndex + 1}
       type="text"
       inputMode="text"
       maxLength="1"
       value={letter.value}
       onChange={OnChange}
-      onBlur={SaveLetterValue}
       onKeyDown={OnKeyDown}
       onKeyUp={OnKeyUp}
-      ref={inputRef}
+      onDoubleClick={() => SwitchAndSaveLetterState(true)}
       onContextMenu={(e) => {
         e.preventDefault();
-        SwitchLetterState();
+        SwitchAndSaveLetterState(true);
         return false;
       }}
+      onTouchStart={OnTouchStart}
+      onTouchMove={OnTouchMove}
+      ref={inputRef}
     />
   );
 }

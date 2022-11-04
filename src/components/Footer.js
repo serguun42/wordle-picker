@@ -96,6 +96,11 @@ export default function Footer() {
             Github
           </a>
         </div>
+
+        <div className="footer__section__item default-no-select">
+          <i className="material-icons">code</i>
+          <span>Frontend version {process.env.REACT_APP_VERSION}</span>
+        </div>
       </section>
     </footer>
   );

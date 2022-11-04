@@ -19,7 +19,7 @@
   padding: 2px 4px;
 
   border-radius: 4px;
-  color: var(--tile-filled-text-color);
+  color: var(--tile-correct-text-color);
   background-color: var(--tile-correct-background-color);
 }
 

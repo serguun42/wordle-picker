@@ -6,6 +6,7 @@ import About from './pages/About';
 import NotFound from './pages/NotFound';
 import Footer from './components/Footer';
 import Message from './components/Message';
+import Popup from './components/Popup';
 import ScrollToTop from './util/scroll-to-top';
 import dispatcher from './util/dispatcher';
 import store from './store';
@@ -47,6 +48,7 @@ root.render(
       </div>
       <Footer />
       <Message />
+      <Popup />
     </BrowserRouter>
   </Provider>
 );

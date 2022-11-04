@@ -17,7 +17,16 @@ export default function CardAbout() {
         </li>
         <li>
           Fill same word in this picker. Then mark each letter by color as in <i>actual Wordle</i> –{' '}
-          <b>{isMobile ? 'long press on tile' : 'right click on tile'}</b> to change its color. Color meaning:
+          {isMobile ? (
+            <span>
+              <b>long press on tile</b> or <b>swipe it left/right</b>
+            </span>
+          ) : (
+            <span>
+              <b>right click on tile</b> or <b>double click it</b>
+            </span>
+          )}{' '}
+          to change its color. Color meaning:
           <ul className="card-about__marks">
             <li>
               <span className="card-about__correct-mark">Green color</span> indicates that letter is placed where it
@@ -28,13 +37,9 @@ export default function CardAbout() {
               word at least one time – but its position is wrong.
             </li>
             <li>
-              <span className="card-about__absent-mark">Gray color</span> indicates that letter is not present in this
-              word (or that there is no second occurence of it if this is letter presented once already – but this
+              <span className="card-about__absent-mark">Gray/black color</span> indicates that letter is not present in
+              this word (or that there is no second occurence of it if this is letter presented once already – but this
               scenario is quite rare).
-            </li>
-            <li>
-              Tile in <span className="card-about__unknown-mark">transparent/black color</span> is skipped in forming
-              filters.
             </li>
           </ul>
         </li>
