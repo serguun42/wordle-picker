@@ -18,30 +18,6 @@ export default function Letter({ letter, rowIndex, letterIndex, autoFocus }) {
   const [touchOrigin, setTouchOrigin] = useState(0);
   let swipeChangeTime = Date.now();
 
-  useEffect(() => {
-    /**
-     * @param {number} switchingRowIndex
-     * @param {number} switchingLetterIndex
-     */
-    const SwitchLetterInputEventHandler = (switchingRowIndex, switchingLetterIndex) => {
-      if (switchingRowIndex !== rowIndex || switchingLetterIndex !== letterIndex) return;
-      if (inputRef.current) inputRef.current.focus();
-    };
-
-    dispatcher.link('switchLetterInput', SwitchLetterInputEventHandler);
-    return () => dispatcher.unlink('switchLetterInput', SwitchLetterInputEventHandler);
-  });
-
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.value = letter.value;
-      if (autoFocus && isNeverFocused) {
-        inputRef.current.focus();
-        setNeverFocused(false);
-      }
-    }
-  }, [inputRef.current]);
-
   /**
    * @param {boolean} [rotationPosivite]
    * @returns {void}
@@ -66,8 +42,43 @@ export default function Letter({ letter, rowIndex, letterIndex, autoFocus }) {
     store.dispatch(changeLetter({ rowIndex, letterIndex, letterValue: newLetterValue.toLowerCase() }));
   };
 
-  const NextLetterInput = () => dispatcher.call('switchLetterInput', rowIndex, letterIndex + 1);
-  const PreviousLetterInput = () => dispatcher.call('switchLetterInput', rowIndex, letterIndex - 1);
+  useEffect(() => {
+    /**
+     * @param {number} switchingRowIndex
+     * @param {number} switchingLetterIndex
+     * @param {string} [switchingPayload]
+     */
+    const SwitchLetterInputEventHandler = (switchingRowIndex, switchingLetterIndex, switchingPayload) => {
+      if (switchingRowIndex !== rowIndex || switchingLetterIndex !== letterIndex) return;
+      if (inputRef.current) {
+        inputRef.current.focus();
+        if (typeof switchingPayload === 'string') {
+          inputRef.current.value = switchingPayload[0] || '';
+          SaveLetterValue(switchingPayload[0]);
+        }
+      }
+    };
+
+    dispatcher.link('switchLetterInput', SwitchLetterInputEventHandler);
+    return () => dispatcher.unlink('switchLetterInput', SwitchLetterInputEventHandler);
+  });
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.value = letter.value;
+      if (autoFocus && isNeverFocused) {
+        inputRef.current.focus();
+        setNeverFocused(false);
+      }
+    }
+  }, [inputRef.current]);
+
+  /** @param {string} [switchingPayload] */
+  const NextLetterInput = (switchingPayload) =>
+    dispatcher.call('switchLetterInput', rowIndex, letterIndex + 1, switchingPayload);
+  /** @param {string} [switchingPayload] */
+  const PreviousLetterInput = (switchingPayload) =>
+    dispatcher.call('switchLetterInput', rowIndex, letterIndex - 1, switchingPayload);
 
   /** @param {InputEvent} e */
   const OnChange = (e) => {
@@ -83,7 +94,7 @@ export default function Letter({ letter, rowIndex, letterIndex, autoFocus }) {
   const OnKeyDown = (e) => {
     const setLetterValue = e.target?.value?.[0] || '';
     if (setLetterValue && /^[a-z]$/i.test(e.key)) {
-      NextLetterInput();
+      NextLetterInput(e.key);
       return;
     }
 
@@ -91,7 +102,8 @@ export default function Letter({ letter, rowIndex, letterIndex, autoFocus }) {
       e.preventDefault();
       if (inputRef.current) inputRef.current.value = '';
       SaveLetterValue('');
-      PreviousLetterInput();
+
+      PreviousLetterInput(!setLetterValue ? '' : undefined);
     }
 
     if (e.key === 'ArrowLeft') PreviousLetterInput();
@@ -132,7 +144,6 @@ export default function Letter({ letter, rowIndex, letterIndex, autoFocus }) {
       className={`letter letter--${letter.state} default-pointer default-no-select`}
       tabIndex={rowIndex * 10 + letterIndex + 1}
       type="text"
-      inputMode="text"
       maxLength="1"
       value={letter.value}
       onChange={OnChange}

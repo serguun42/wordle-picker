@@ -28,9 +28,17 @@ export const rowsSlice = createSlice({
   },
 
   reducers: {
-    /** @param {{ payload: import('../types/Row').Row }} action */
-    addRow: (state, action) => {
-      state.rows.push(action.payload);
+    /** @param {{ payload: string }} action */
+    addRowByWord: (state, action) => {
+      const word = action.payload;
+      if (typeof word !== 'string') return;
+
+      state.rows.push(
+        word
+          .split('')
+          .slice(0, 5)
+          .map((letter) => ({ value: letter, state: 'absent', key: GetKey('letter') }))
+      );
       dispatcher.call('rowsChanged');
     },
 
@@ -75,6 +83,6 @@ export const rowsSlice = createSlice({
   },
 });
 
-export const { addRow, addEmptyRow, deleteRow, changeLetter } = rowsSlice.actions;
+export const { addRowByWord, addEmptyRow, deleteRow, changeLetter } = rowsSlice.actions;
 
 export const { reducer } = rowsSlice;

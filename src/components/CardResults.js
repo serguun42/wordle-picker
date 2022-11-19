@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import FilterWordsWithRows from '../util/filter-words-with-rows';
+import dispatcher from '../util/dispatcher';
 import Ripple from './Ripple';
 import './CardResults.css';
-import dispatcher from '../util/dispatcher';
+import store from '../store';
+import { addRowByWord } from '../store/rows';
 
 export default function CardResults() {
   /** @type {{ rows: import('../types/Row').Row[] }} */
@@ -24,6 +26,13 @@ export default function CardResults() {
     dispatcher.link('rowsChanged', RowsChangedHandler);
     return () => dispatcher.unlink('rowsChanged', RowsChangedHandler);
   });
+
+  /**
+   * @param {string} word
+   */
+  const ChooseWord = (word) => {
+    store.dispatch(addRowByWord(word));
+  };
 
   return (
     <>
@@ -63,7 +72,11 @@ export default function CardResults() {
       {filteredWords.length && filteredWords.length !== words.length ? (
         <div className="card-results__list" key={timesUpdated}>
           {filteredWords.slice(0, isExpanded ? 1000 : 5).map((word) => (
-            <div className="card-results__word" key={word}>
+            <div
+              className="card-results__word default-no-select default-pointer"
+              onClick={() => ChooseWord(word)}
+              key={word}
+            >
               {word}
             </div>
           ))}

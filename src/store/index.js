@@ -3,7 +3,7 @@ import { reducer as themeReducer } from './theme';
 import { showMessage, hideMessage, reducer as messageReducer } from './message';
 import { reducer as wordsReducer, saveWords } from './words';
 import dispatcher from '../util/dispatcher';
-import { addEmptyRow, addRow, changeLetter, deleteRow, reducer as rowsReducer } from './rows';
+import { addEmptyRow, addRowByWord, changeLetter, deleteRow, reducer as rowsReducer } from './rows';
 
 const store = configureStore({
   reducer: {
@@ -28,7 +28,7 @@ dispatcher.link('hideMessageIfPossible', (currentMessageId) => {
 
 dispatcher.link('storeWords', /** @param {string[]} words */ (words) => store.dispatch(saveWords(words)));
 
-dispatcher.link('addRow', /** @param {import('../types/Row').Row} row */ (row) => store.dispatch(addRow(row)));
+dispatcher.link('addRowByWord', /** @param {string} word */ (word) => store.dispatch(addRowByWord(word)));
 dispatcher.link('addEmptyRow', () => store.dispatch(addEmptyRow()));
 dispatcher.link('deleteRow', () => store.dispatch(deleteRow()));
 dispatcher.link(
