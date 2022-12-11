@@ -15,7 +15,7 @@ export default function Row({ row, rowIndex, isLast }) {
             letter={letter}
             rowIndex={rowIndex}
             letterIndex={letterIndex}
-            autoFocus={isLast && !letterIndex}
+            autoFocus={isLast && !letterIndex && !letter.value}
           />
         ))}
       </div>
