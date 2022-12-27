@@ -37,7 +37,23 @@ export const rowsSlice = createSlice({
         word
           .split('')
           .slice(0, 5)
-          .map((letter) => ({ value: letter, state: 'absent', key: GetKey('letter') }))
+          .map((letter, index) => {
+            /** @type {import('../types/Row').LetterState} */
+            let awareState = 'absent';
+
+            state.rows.forEach((row) => {
+              const indexOfLetterInPriorRow = row.findIndex((priorLetter) => priorLetter?.value === letter);
+              if (indexOfLetterInPriorRow < 0) return;
+              const stateOfLetterInPriorRow = row[indexOfLetterInPriorRow]?.state;
+              if (!stateOfLetterInPriorRow) return;
+
+              if (indexOfLetterInPriorRow === index && stateOfLetterInPriorRow === 'correct') awareState = 'correct';
+              if (indexOfLetterInPriorRow === index && stateOfLetterInPriorRow === 'present') awareState = 'absent';
+              if (indexOfLetterInPriorRow !== index && stateOfLetterInPriorRow === 'present') awareState = 'present';
+            });
+
+            return { value: letter || '', state: awareState, key: GetKey('letter') };
+          })
       );
       dispatcher.call('rowsChanged');
     },
